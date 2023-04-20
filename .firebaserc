@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ng-note-plus": {
+      "hosting": {
+        "note-plus": [
+          "ng-note-plus"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ng-note-plus"
+  }
+}
