@@ -14,9 +14,11 @@ import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import {HttpClientModule} from '@angular/common/http';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { SidebarComponent } from './Components/Partials/sidebar/sidebar.component';
 import { PartialModule } from './Components/Partials/partial.module';
+import { LoginModule } from './Components/Pages/login/login.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +32,9 @@ import { PartialModule } from './Components/Partials/partial.module';
     TuiRootModule,
     TuiDialogModule,
     TuiAlertModule,
-    PartialModule
+    PartialModule,
+    LoginModule,
+    HttpClientModule
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
   bootstrap: [AppComponent],

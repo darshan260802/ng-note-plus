@@ -1,6 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.font-logo {
+  font-family: "Rubik Dirt", cursive;
+}
+
+
+// So that router-outlet dont affect css
+router-outlet{
+    display: none;
+    & + *{
+      flex: 1;
+    }
 }

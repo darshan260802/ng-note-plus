@@ -1,0 +1,27 @@
+<div class="container-login" *ngIf="userForm" >  
+    <tui-elastic-container>
+        <tui-island [hoverable]="false" textAlign="center" size="l">
+            <h1>{{mode}}</h1>
+            <form [formGroup]="userForm">
+                <tui-input formControlName="name" *ngIf="mode === 'signup'" >
+                    <label >Name</label>
+                    <input tuiTextfield />
+                </tui-input>
+                <tui-input formControlName="email" >
+                    <label >Email</label>
+                    <input tuiTextfield type="email"/>
+                </tui-input>
+                <tui-input-password formControlName="password" >
+                    <label>Password</label>
+                    <input tuiTextfield type="password">
+                </tui-input-password>
+                <tui-checkbox-block formControlName="remember" size="s" contentAlign="left">
+                    Remember Me
+                </tui-checkbox-block>
+                <button tuiButton (click)="handleSubmit()" [showLoader]="isLoading" >{{mode}}</button>
+                <p class="switch" *ngIf="mode === 'login'" >Don't have an account? <a tuiLink routerLink="/auth/signup">Create here</a></p>
+                <p class="switch" *ngIf="mode !== 'login'" >Already have an account? <a tuiLink routerLink="/auth/login">Login here</a></p>
+            </form>
+        </tui-island>
+    </tui-elastic-container>
+</div>

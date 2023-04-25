@@ -1,0 +1,33 @@
+.container-sidebar {
+  height: 100%;
+  width: 250px;
+  background-color: #526ed3;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+
+  .container-logo {
+    p.logo {
+      font-size: 40px;
+      color: darkblue;
+      user-select: none;
+      cursor: pointer;
+      text-align: center;
+    }
+    padding-bottom: 20px;
+  }
+
+  .container-navs{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    .container-account{
+        a.btn-login{
+            display: block;
+            margin: 0 20px;
+        }
+    }
+  }
+}
