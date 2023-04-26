@@ -29,10 +29,15 @@ export class AuthService {
   BASE_URL: string = 'https://dark-gray-blackbuck-fez.cyclic.app/transform';
   JWT_SECRET: string = 'TODO_PLUS_DARSHAN';
   loading: BehaviorSubject<boolean>;
+  // currentUser: SavedUser = {
+  //   uid: '',
+  //   name: '',
+  //   email: '',
+  // };
   currentUser: SavedUser = {
-    uid: '',
-    name: '',
-    email: '',
+    uid: 'ChrsTbVyMMNoqHlGuEXAYGt1T563',
+    name: 'Darshan Patel',
+    email: 'dhpatelhhpatel123@gmail.com',
   };
 
   constructor(
@@ -49,7 +54,7 @@ export class AuthService {
   ): Promise<Observable<boolean>> {
     this.loading.next(true);
     await createUserWithEmailAndPassword(this.auth, email, password)
-      .then(async(response) => {
+      .then(async (response) => {
         await updateProfile(response.user, { displayName: name });
         this.currentUser['uid'] = response.user.uid;
         this.currentUser['name'] = name ?? 'Guest';
@@ -95,10 +100,10 @@ export class AuthService {
           })
           .subscribe();
 
-          this.loading.next(false);
-        });
-        
-        return this.loading.asObservable();
+        this.loading.next(false);
+      });
+
+    return this.loading.asObservable();
   }
   async login(
     { email, password }: User,
@@ -110,6 +115,7 @@ export class AuthService {
         this.currentUser['uid'] = response.user.uid;
         this.currentUser['name'] = response.user.displayName ?? 'Guest';
         this.currentUser['email'] = email;
+        
         const body = {
           payload: {
             ...this.currentUser,
@@ -151,7 +157,7 @@ export class AuthService {
     return this.loading.asObservable();
   }
 
-  async tryAutoLogin() : Promise<boolean>{
+  async tryAutoLogin(): Promise<boolean> {
     let flag = true;
     let authToken = localStorage.getItem('authToken');
     if (!authToken) {
@@ -169,9 +175,9 @@ export class AuthService {
         this.currentUser['uid'] = (res as SavedUser).uid;
         this.currentUser['name'] = (res as SavedUser).name;
         this.currentUser['email'] = (res as SavedUser).email;
-        resolve()
+        resolve();
       });
-    })
+    });
     return flag;
   }
 
@@ -179,7 +185,7 @@ export class AuthService {
     return { ...this.currentUser };
   }
 
-  logout():void{
+  logout(): void {
     localStorage.removeItem('authToken');
     sessionStorage.removeItem('authToken');
     this.currentUser = {

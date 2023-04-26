@@ -15,10 +15,13 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import {HttpClientModule} from '@angular/common/http';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideFirestore, getFirestore, Firestore } from '@angular/fire/firestore';
 import { SidebarComponent } from './Components/Partials/sidebar/sidebar.component';
 import { PartialModule } from './Components/Partials/partial.module';
 import { LoginModule } from './Components/Pages/login/login.module';
+import { WorkspacesModule } from './Components/Pages/workspaces/workspaces.module';
+import { AuthService } from './Shared/auth.service';
+import { WorkspaceService } from './Shared/workspace.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,9 +37,10 @@ import { LoginModule } from './Components/Pages/login/login.module';
     TuiAlertModule,
     PartialModule,
     LoginModule,
-    HttpClientModule
+    HttpClientModule,
+    WorkspacesModule
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
+  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },AuthService, WorkspaceService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

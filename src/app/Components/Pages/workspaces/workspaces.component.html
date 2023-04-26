@@ -1,0 +1,50 @@
+<div class="container-workspaces" *ngIf="workspaceForm">
+  <!-- Action Bar -->
+  <div class="container-actionbar">
+    <form [formGroup]="workspaceForm" (ngSubmit)="handleSubmit()">
+      <tui-input formControlName="name" class="inp-workspace">
+        <label>Workspace Name</label>
+        <input type="text" tuiTextfield />
+      </tui-input>
+
+      <tui-hosted-dropdown [content]="colorPalette">
+        <button
+          tuiButton
+          type="button"
+          appearance=""
+          [ngStyle]="{
+            backgroundColor: workspaceColor,
+            color: workspaceText,
+            border: '1px solid '
+          }"
+        >
+          Workspace Color
+        </button>
+      </tui-hosted-dropdown>
+
+      <button tuiButton type="submit">Create Workspace</button>
+    </form>
+  </div>
+
+  <!-- Workspace List -->
+  <div class="container-workspace-list">
+    <div
+      class="container-workspace"
+      *ngFor="let workspace of workspaces"
+      [ngStyle]="{
+        backgroundColor: workspace.bodyColor,
+        color: workspace.textColor,
+    }"
+    >
+      <h1>{{ workspace.name }}</h1>
+    </div>
+  </div>
+</div>
+
+<ng-template #colorPalette>
+  <tui-palette
+    [colors]="paletteColors"
+    (selectedColor)="updateWorkspaceColor($event)"
+  >
+  </tui-palette>
+</ng-template>

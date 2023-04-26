@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^15.1.0",
     "@angular/platform-browser-dynamic": "^15.1.0",
     "@angular/router": "^15.1.0",
+    "@taiga-ui/addon-editor": "^3.25.0",
     "@taiga-ui/addon-mobile": "^3.25.0",
     "@taiga-ui/cdk": "^3.25.0",
     "@taiga-ui/core": "^3.25.0",

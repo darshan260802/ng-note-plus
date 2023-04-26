@@ -1,0 +1,43 @@
+.container-workspaces {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+
+  // Action Bar
+  .container-actionbar {
+    form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inp-workspace {
+      width: min(80%, 450px);
+    }
+  }
+
+  // Workspace List
+  .container-workspace-list {
+    max-height: 100%;
+    overflow: hidden auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    .container-workspace {
+      flex: 1 1 max-content;
+      display: flex;
+      align-items: center;
+      padding: 30px;
+      border-radius: 10px;
+      h1{
+        font-size: 3.5rem;
+      }
+    }
+  }
+}

@@ -7,9 +7,10 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+html_max_blank_lines_between_tags = 2
 
 [*.ts]
-quote_type = single
+quote_type = double
 
 [*.md]
 max_line_length = off

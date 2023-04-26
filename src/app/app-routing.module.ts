@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Components/Pages/login/login.component';
+import { WorkspacesComponent } from './Components/Pages/workspaces/workspaces.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
         data: {mode: 'signup'}
       },
     ]
+  },
+  {
+    path:'workspaces',
+    component: WorkspacesComponent
   },
   {
     path:'**',
