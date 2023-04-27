@@ -22,6 +22,7 @@ import { LoginModule } from './Components/Pages/login/login.module';
 import { WorkspacesModule } from './Components/Pages/workspaces/workspaces.module';
 import { AuthService } from './Shared/auth.service';
 import { WorkspaceService } from './Shared/workspace.service';
+import { NotesModule } from './Components/Pages/notes/notes.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +39,8 @@ import { WorkspaceService } from './Shared/workspace.service';
     PartialModule,
     LoginModule,
     HttpClientModule,
-    WorkspacesModule
+    WorkspacesModule,
+    NotesModule
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },AuthService, WorkspaceService],
   bootstrap: [AppComponent],

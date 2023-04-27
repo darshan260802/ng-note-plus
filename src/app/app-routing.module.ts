@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Components/Pages/login/login.component';
 import { WorkspacesComponent } from './Components/Pages/workspaces/workspaces.component';
+import { NotesComponent } from './Components/Pages/notes/notes.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path:'workspaces',
     component: WorkspacesComponent
+  },
+  {
+    path:'notes',
+    component: NotesComponent
   },
   {
     path:'**',

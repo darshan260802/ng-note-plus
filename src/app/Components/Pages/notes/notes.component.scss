@@ -1,0 +1,54 @@
+.container-notes {
+  padding: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+
+  // Action Bar
+  .container-actionbar {
+    form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inp-notes {
+      width: min(80%, 450px);
+    }
+
+    tui-select {
+      width: 250px;
+      overflow-x: hidden;
+    }
+  }
+
+  // Note List
+  .container-note-list {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(4,calc((100% - 30px) / 4));
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+
+    .container-note {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      padding: 15px;
+      &::before {
+        border-top: 5px solid;
+        border-top-color: var(--border-color);
+      }
+      tui-scrollbar{
+        text-overflow: ellipsis;
+        overflow: hidden auto;
+        max-width: 100%;
+        max-height: 200px;
+      }
+    }
+  }
+}

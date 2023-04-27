@@ -11,88 +11,41 @@ import { Workspace } from "src/app/models";
 })
 export class WorkspacesComponent implements OnInit {
   workspaceForm!: FormGroup;
-  workspaceColor: string = "#22031f";
-  workspaceText: string = "#87B38D";
+  workspaceColor: string = "#ABF902";
+  workspaceText: string = "#5002F9";
   workspaces: Workspace[] = [];
   colors: { body: string; text: string }[] = [
     {
-      text: "#EEA47F",
-      body: "#00539C",
+        "body": "#ABF902",
+        "text": "#5002F9"
     },
     {
-      text: "#FBEAEB",
-      body: "#2F3C7E",
+        "body": "#5C6CF9",
+        "text": "#F9E95C"
     },
     {
-      text: "#FEE715",
-      body: "#101820",
+        "body": "#4A84EF",
+        "text": "#EFB54A"
     },
     {
-      text: "#FCE77D",
-      body: "#F96167",
+        "body": "#73B507",
+        "text": "#4907B5"
     },
     {
-      text: "#4831D4",
-      body: "#CCF381",
+        "body": "#72660C",
+        "text": "#0C1872"
     },
     {
-      text: "#317773",
-      body: "#E2D1F9",
-    },
-    {
-      text: "#FCF6F5",
-      body: "#990011",
-    },
-    {
-      text: "#FFFFF",
-      body: "#8AAAE5",
-    },
-    {
-      text: "#00FFFF",
-      body: "#FF69B4",
-    },
-    {
-      text: "#EE4E34",
-      body: "#FCEDDA",
-    },
-    {
-      text: "#00008b",
-      body: "#ADD8E6",
-    },
-    {
-      text: "#EA738D",
-      body: "#89ABE3",
-    },
-    {
-      text: "#99F443",
-      body: "#EC449B",
-    },
-    {
-      text: "#F7C5CC",
-      body: "#CC313D",
-    },
-    {
-      text: "#97BC62",
-      body: "#2C5F2D",
-    },
-    {
-      text: "#FCF6F5",
-      body: "#2BAE66",
-    },
-    {
-      text: "#2C5F2D",
-      body: "#FFE77A",
-    },
-    {
-      text: "#FBF8BE",
-      body: "#234E70",
-    },
-  ];
+        "body": "#193BFC",
+        "text": "#FCDA19"
+    }
+];
   paletteColors = this.bodyColors;
 
   get bodyColors(): Map<string, string> {
+    const shallowCopy = [...this.colors.map(it => ({...it}))]
     return new Map(
-      this.colors.map((color: { body: string; text: string }) => [
+      shallowCopy.map((color: { body: string; text: string }) => [
         color.body,
         color.body,
       ])
@@ -113,14 +66,14 @@ export class WorkspacesComponent implements OnInit {
     (await this.wsService.getWorkspaces()).subscribe((data: Workspace[]) => {
       this.workspaces = data;
     });
+    
   }
 
   updateWorkspaceColor(color: string) {
     this.workspaceColor = color;
-    this.workspaceText =
-      this.colors.find(
-        (item: { body: string; text: string }) => (item.body = color)
-      )?.text ?? "";
+    const index = this.colors.findIndex(it => it.body === color);
+    if(index < 0) return;
+    this.workspaceText = {...this.colors[index]}.text;   
   }
 
   handleSubmit() {

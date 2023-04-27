@@ -12,3 +12,13 @@ export interface Workspace{
     userId: string;
     workspaceId?: string;
 }
+
+export interface Note{
+    userId:string;
+    workspaceId:string;
+    title:string;
+    tag:string;
+    note:string;
+    createdAt:number;
+    noteId?:string;
+}
