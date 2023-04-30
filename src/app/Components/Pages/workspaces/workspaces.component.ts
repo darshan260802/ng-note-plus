@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { TuiAlertService, TuiNotification } from "@taiga-ui/core";
+import { NoteService } from "src/app/Shared/note.service";
+import { TodoService } from "src/app/Shared/todo.service";
 import { WorkspaceService } from "src/app/Shared/workspace.service";
 import { Workspace } from "src/app/models";
 
@@ -11,39 +13,66 @@ import { Workspace } from "src/app/models";
 })
 export class WorkspacesComponent implements OnInit {
   workspaceForm!: FormGroup;
-  workspaceColor: string = "#ABF902";
-  workspaceText: string = "#5002F9";
+  workspaceColor: string = "#291f9d";
+  workspaceText: string = "#f8e058";
+  showDialog: boolean = false;
+  deleteWorkspace: Workspace | null = null;
   workspaces: Workspace[] = [];
   colors: { body: string; text: string }[] = [
     {
-        "body": "#ABF902",
-        "text": "#5002F9"
+      body: "#291f9d",
+      text: "#f8e058",
     },
     {
-        "body": "#5C6CF9",
-        "text": "#F9E95C"
+      body: "#dec3d7",
+      text: "#191658",
     },
     {
-        "body": "#4A84EF",
-        "text": "#EFB54A"
+      body: "#daade0",
+      text: "#382a57",
     },
     {
-        "body": "#73B507",
-        "text": "#4907B5"
+      body: "#bcd6ef",
+      text: "#0c148c",
     },
     {
-        "body": "#72660C",
-        "text": "#0C1872"
+      body: "#91f6c7",
+      text: "#1a0771",
     },
     {
-        "body": "#193BFC",
-        "text": "#FCDA19"
-    }
-];
+      body: "#2d25bb",
+      text: "#dac6f9",
+    },
+    {
+      body: "#e29efc",
+      text: "#26135d",
+    },
+    {
+      body: "#d3d4f5",
+      text: "#2412a7",
+    },
+    {
+      body: "#5dfc5a",
+      text: "#2a235d",
+    },
+    {
+      body: "#dbe9b0",
+      text: "#1c0285",
+    },
+    {
+      body: "#0219b2",
+      text: "#dbceef",
+    },
+    {
+      body: "#c6baf7",
+      text: "#18135e",
+    },
+  ];
+
   paletteColors = this.bodyColors;
 
   get bodyColors(): Map<string, string> {
-    const shallowCopy = [...this.colors.map(it => ({...it}))]
+    const shallowCopy = [...this.colors.map((it) => ({ ...it }))];
     return new Map(
       shallowCopy.map((color: { body: string; text: string }) => [
         color.body,
@@ -55,6 +84,8 @@ export class WorkspacesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private wsService: WorkspaceService,
+    private noteService:NoteService,
+    private todoService:TodoService,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {}
 
@@ -66,14 +97,13 @@ export class WorkspacesComponent implements OnInit {
     (await this.wsService.getWorkspaces()).subscribe((data: Workspace[]) => {
       this.workspaces = data;
     });
-    
   }
 
   updateWorkspaceColor(color: string) {
     this.workspaceColor = color;
-    const index = this.colors.findIndex(it => it.body === color);
-    if(index < 0) return;
-    this.workspaceText = {...this.colors[index]}.text;   
+    const index = this.colors.findIndex((it) => it.body === color);
+    if (index < 0) return;
+    this.workspaceText = { ...this.colors[index] }.text;
   }
 
   handleSubmit() {
@@ -97,5 +127,19 @@ export class WorkspacesComponent implements OnInit {
       this.workspaceText
     );
     this.workspaceForm.reset();
+  }
+
+  showDeletePrompt(index: number) {
+    const workspace = this.workspaces[index];
+    if(!workspace) return;
+    this.deleteWorkspace = workspace;
+    this.showDialog = true;
+  }
+  async removeWorkspace():Promise<void>{
+    await this.noteService.deleteNotesForWorkspace(this.deleteWorkspace?.workspaceId as string);
+    await this.todoService.deleteTodosForWorkspace(this.deleteWorkspace?.workspaceId as string);
+    this.wsService.deleteWorkspace(this.deleteWorkspace?.workspaceId as string);
+    this.showDialog = false;
+    
   }
 }

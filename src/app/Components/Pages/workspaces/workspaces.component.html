@@ -29,7 +29,8 @@
   <div class="container-workspace-list">
     <div
       class="container-workspace"
-      *ngFor="let workspace of workspaces"
+      *ngFor="let workspace of workspaces; let i = index"
+      (click)="showDeletePrompt(i)"
       [ngStyle]="{
         backgroundColor: workspace.bodyColor,
         color: workspace.textColor,
@@ -46,4 +47,16 @@
     (selectedColor)="updateWorkspaceColor($event)"
   >
   </tui-palette>
+</ng-template>
+
+<ng-template [(tuiDialog)]="showDialog">
+  <div class="prompt">
+    <p>Are You sure, You want to delete following workspace?</p>
+    <span>This will also delete notes & todos created in this workspace</span>
+    <h1 *ngIf="deleteWorkspace">{{ deleteWorkspace.name }}</h1>
+    <div class="action">
+      <button tuiButton appearance="accent" (click)="removeWorkspace()" >Delete</button>
+      <button tuiButton (click)="showDialog = false" >Cancel</button>
+    </div>
+  </div>
 </ng-template>

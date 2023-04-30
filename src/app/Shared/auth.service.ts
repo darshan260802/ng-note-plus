@@ -8,6 +8,7 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
+import { Router } from '@angular/router';
 
 interface User {
   name?: string;
@@ -15,7 +16,7 @@ interface User {
   password: string;
 }
 
-interface SavedUser {
+export interface SavedUser {
   name: string;
   uid: string;
   email: string;
@@ -29,20 +30,22 @@ export class AuthService {
   BASE_URL: string = 'https://dark-gray-blackbuck-fez.cyclic.app/transform';
   JWT_SECRET: string = 'TODO_PLUS_DARSHAN';
   loading: BehaviorSubject<boolean>;
-  // currentUser: SavedUser = {
-  //   uid: '',
-  //   name: '',
-  //   email: '',
-  // };
   currentUser: SavedUser = {
-    uid: 'ChrsTbVyMMNoqHlGuEXAYGt1T563',
-    name: 'Darshan Patel',
-    email: 'dhpatelhhpatel123@gmail.com',
+    uid: '',
+    name: '',
+    email: '',
   };
+  userStream:BehaviorSubject<SavedUser> =  new BehaviorSubject<SavedUser>(this.currentUser);
+  // currentUser: SavedUser = {
+  //   uid: 'ChrsTbVyMMNoqHlGuEXAYGt1T563',
+  //   name: 'Darshan Patel',
+  //   email: 'dhpatelhhpatel123@gmail.com',
+  // };
 
   constructor(
     private http: HttpClient,
     private auth: Auth,
+    private router:Router,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.loading = new BehaviorSubject<boolean>(false);
@@ -59,6 +62,8 @@ export class AuthService {
         this.currentUser['uid'] = response.user.uid;
         this.currentUser['name'] = name ?? 'Guest';
         this.currentUser['email'] = email;
+        this.userStream.next(this.currentUser);
+        this.router.navigate(['workspaces']);
         const body = {
           payload: {
             ...this.currentUser,
@@ -115,6 +120,8 @@ export class AuthService {
         this.currentUser['uid'] = response.user.uid;
         this.currentUser['name'] = response.user.displayName ?? 'Guest';
         this.currentUser['email'] = email;
+        this.userStream.next(this.currentUser);
+        this.router.navigate(['workspaces']);
         
         const body = {
           payload: {
@@ -159,6 +166,11 @@ export class AuthService {
 
   async tryAutoLogin(): Promise<boolean> {
     let flag = true;
+
+    if(this.currentUser.uid.length){
+      return true;
+    }
+
     let authToken = localStorage.getItem('authToken');
     if (!authToken) {
       authToken = sessionStorage.getItem('authToken');
@@ -175,6 +187,7 @@ export class AuthService {
         this.currentUser['uid'] = (res as SavedUser).uid;
         this.currentUser['name'] = (res as SavedUser).name;
         this.currentUser['email'] = (res as SavedUser).email;
+        this.userStream.next(this.currentUser);
         resolve();
       });
     });
@@ -185,6 +198,10 @@ export class AuthService {
     return { ...this.currentUser };
   }
 
+  getUserStream():Observable<SavedUser>{
+    return this.userStream.asObservable();
+  }
+
   logout(): void {
     localStorage.removeItem('authToken');
     sessionStorage.removeItem('authToken');
@@ -193,5 +210,7 @@ export class AuthService {
       name: '',
       email: '',
     };
+    this.userStream.next(this.currentUser);
+    this.router.navigate(['auth','login']);
   }
 }

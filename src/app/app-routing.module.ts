@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Components/Pages/login/login.component';
 import { WorkspacesComponent } from './Components/Pages/workspaces/workspaces.component';
 import { NotesComponent } from './Components/Pages/notes/notes.component';
+import { TodosComponent } from './Components/Pages/todos/todos.component';
+import { AuthGuard } from './Guards/auth.guard';
 
 const routes: Routes = [
   {
     path:'',
     pathMatch:'full',
-    redirectTo:''
+    redirectTo:'workspaces'
   },
   {
     path:'auth',
@@ -32,11 +34,18 @@ const routes: Routes = [
   },
   {
     path:'workspaces',
+    canActivate:[AuthGuard],
     component: WorkspacesComponent
   },
   {
     path:'notes',
+    canActivate:[AuthGuard],
     component: NotesComponent
+  },
+  {
+    path:'todos',
+    canActivate:[AuthGuard],
+    component: TodosComponent
   },
   {
     path:'**',

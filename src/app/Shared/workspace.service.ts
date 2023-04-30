@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { addDoc, Firestore, collection, collectionData, DocumentData, query, where, orderBy } from "@angular/fire/firestore";
+import { addDoc, Firestore, collection, collectionData, DocumentData, query, where, orderBy, doc, deleteDoc } from "@angular/fire/firestore";
 import { AuthService } from "./auth.service";
 import { Workspace } from "../models";
 import { Observable } from "rxjs";
@@ -35,5 +35,9 @@ export class WorkspaceService {
       userId: this.authService.getUser().uid,
     };
     await addDoc(collection(this.firestore, "workspaces"), body);
+  }
+  async deleteWorkspace(workspaceId:string): Promise<void>{
+    const workspace = doc(this.firestore, 'workspaces', workspaceId);
+    await deleteDoc(workspace);
   }
 }

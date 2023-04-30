@@ -23,14 +23,16 @@
         <tui-data-list-wrapper *tuiDataList [items]="getWorkspaceNames()">
         </tui-data-list-wrapper>
       </tui-select>
-      <button tuiButton type="submit">Add Note</button>
+      <button tuiButton type="submit" [showLoader]="newLoad" >Add Note</button>
     </form>
   </div>
   <tui-scrollbar>
     <div class="container-note-list">
       <tui-island
         class="container-note"
-        *ngFor="let note of notes"
+        *ngFor="let note of notes; let noteIndex = index"
+        
+        (click)="setUpdateNote(noteIndex)"
         [ngStyle]="{ '--border-color': getWorkspaceColor(note.workspaceId) }"
       >
         <span class="tui-island__category">{{ note.tag }}</span>
@@ -42,3 +44,55 @@
     </div>
   </tui-scrollbar>
 </div>
+
+<ng-template [(tuiDialog)]="showDialog" let-observer>
+  <ng-container *ngIf="isEdit">
+    <form [formGroup]="updateForm" class="editForm" (ngSubmit)="updateNote()">
+      <h1>Edit Note</h1>
+      <tui-input formControlName="title">
+        <label>Title</label>
+        <input type="text" tuiTextfield />
+      </tui-input>
+      <tui-text-area formControlName="note"> Note </tui-text-area>
+      <tui-input formControlName="tag">
+        <label>Tag</label>
+        <input type="text" tuiTextfield />
+      </tui-input>
+      <div class="actions">
+        <button tuiButton type="submit">Save</button>
+        <button type="button" tuiButton appearance="accent" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!isEdit && updateIndex !== null">
+    <div class="viewNote">
+      <h4>View Note</h4>
+      <span
+        *ngIf="notes[updateIndex].tag.length"
+        [ngStyle]="{
+          '--tag-bg':
+            updateIndex !== null
+              ? getWorkspaceColor(notes[updateIndex].workspaceId)
+              : 'white',
+          '--tag-color':
+            updateIndex !== null
+              ? getWorkspaceTextColor(notes[updateIndex].workspaceId)
+              : 'black'
+        }"
+        >{{ notes[updateIndex].tag }}</span
+      >
+      <h1>{{ notes[updateIndex].title }}</h1>
+      <tui-scrollbar>
+        <p>{{ notes[updateIndex].note }}</p>
+      </tui-scrollbar>
+      <div class="actions">
+        <button tuiButton (click)="setEdit(updateIndex)">Edit</button>
+        <button tuiButton appearance="accent" (click)="deleteNote()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

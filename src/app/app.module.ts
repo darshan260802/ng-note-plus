@@ -23,6 +23,8 @@ import { WorkspacesModule } from './Components/Pages/workspaces/workspaces.modul
 import { AuthService } from './Shared/auth.service';
 import { WorkspaceService } from './Shared/workspace.service';
 import { NotesModule } from './Components/Pages/notes/notes.module';
+import { PriorityDirective } from './Shared/priority.directive';
+import { TodosModule } from './Components/Pages/todos/todos.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +42,8 @@ import { NotesModule } from './Components/Pages/notes/notes.module';
     LoginModule,
     HttpClientModule,
     WorkspacesModule,
-    NotesModule
+    NotesModule,
+    TodosModule
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },AuthService, WorkspaceService],
   bootstrap: [AppComponent],

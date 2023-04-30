@@ -1,0 +1,105 @@
+<div class="container-todos">
+  <!-- Action Bar -->
+  <div class="container-actionbar">
+    <form [formGroup]="todosForm" (ngSubmit)="handleSubmit()">
+      <tui-input formControlName="task" class="inp-todo">
+        <label>Task</label>
+        <input type="text" tuiTextfield />
+      </tui-input>
+
+      <tui-input-date
+        formControlName="deadline"
+        [min]="tuiToday"
+        class="inp-date"
+      >
+        <label>Deadline</label>
+        <input tuiTextfield />
+      </tui-input-date>
+
+      <tui-select formControlName="priority">
+        <label>Priority</label>
+        <input type="text" tuiTextfield />
+        <tui-data-list-wrapper *tuiDataList [items]="priorities">
+        </tui-data-list-wrapper>
+      </tui-select>
+
+      <tui-select formControlName="workspace" [readOnly]="!workspaces.length">
+        <label for="">Workspace</label>
+        <input tuiTextfield placeholder="Select Workspace" />
+        <tui-data-list-wrapper *tuiDataList [items]="getWorkspaceNames()">
+        </tui-data-list-wrapper>
+      </tui-select>
+      <button tuiButton>Add Todo</button>
+    </form>
+  </div>
+
+  <!-- List -->
+  <tui-scrollbar>
+    <div class="container-todo-list">
+      <tui-island
+        class="container-todo"
+        *ngFor="let todo of todos; let todoIndex = index"
+        usePriority
+        (click)="setUpdateTodo(todoIndex)"
+        [priority]="todo.priority"
+        
+      >
+        <span class="tui-island__category ws-name" [ngStyle]="{
+          '--bg-color': getWorkspaceColor(todo.workspaceId),
+          '--text-color': getWorkspaceTextColor(todo.workspaceId)
+        }" >{{getWorkspaceName(todo.workspaceId)}}</span>
+        <h2 class="tui-island__title">{{ todo.task }}</h2>
+          <p class="tui-island__paragraph">{{ todo.deadline | date }}</p>
+        </tui-island>
+    </div>
+  </tui-scrollbar>
+</div>
+
+
+<ng-template [(tuiDialog)]="showDialog" let-observer>
+  <ng-container *ngIf="isEdit">
+    <form [formGroup]="updateForm" class="editForm" (ngSubmit)="updateTodo()">
+      <h1>Edit Todo</h1>
+      <tui-input formControlName="task">
+        <label>Task</label>
+        <input type="text" tuiTextfield />
+      </tui-input>
+      <tui-input-date
+      formControlName="deadline"
+      [min]="tuiToday"
+      class="inp-date"
+    >
+      <label>Deadline</label>
+      <input tuiTextfield />
+    </tui-input-date>
+
+    <tui-select formControlName="priority">
+      <label>Priority</label>
+      <input type="text" tuiTextfield />
+      <tui-data-list-wrapper *tuiDataList [items]="priorities">
+      </tui-data-list-wrapper>
+    </tui-select>
+      <div class="actions">
+        <button tuiButton type="submit">Save</button>
+        <button type="button" tuiButton appearance="accent" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!isEdit && updateIndex !== null">
+    <div class="viewNote">
+      <h4>View Todo</h4>
+      
+      <h1>{{ todos[updateIndex].task }}</h1>
+      <p>{{todos[updateIndex].deadline | date}}</p>
+      <p>Priority: <span  usePriority [priority]="todos[updateIndex].priority" >{{todos[updateIndex].priority}}</span></p>
+      <div class="actions">
+        <button tuiButton (click)="setEdit(updateIndex)">Edit</button>
+        <button tuiButton appearance="accent" (click)="deleteTodo()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

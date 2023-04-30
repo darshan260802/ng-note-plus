@@ -5,9 +5,13 @@ import {
   addDoc,
   collection,
   collectionData,
+  deleteDoc,
+  doc,
   Firestore,
+  getDocs,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
@@ -42,4 +46,22 @@ export class NoteService {
       idField: "noteId",
     }) as Observable<Note[]>;
   }
+
+  async deleteNote(noteId:string): Promise<void>{
+    const task = doc(this.firestore, 'notes', noteId);
+    await deleteDoc(task);
+  }
+  async deleteNotesForWorkspace(workspaceId:string): Promise<void>{
+    const notesQuery = query(collection(this.firestore, 'notes'), where('workspaceId', '==', workspaceId));
+    const querySS = await getDocs(notesQuery);
+    querySS.forEach(async(doc) => {
+      await deleteDoc(doc.ref);
+    })
+  }
+  async updateNote(noteId:string, newValues:{title:string, note:string, tag:string}): Promise<void>{
+    const task = doc(this.firestore, 'notes', noteId);
+    await updateDoc(task, {...newValues});
+  }
+
+
 }

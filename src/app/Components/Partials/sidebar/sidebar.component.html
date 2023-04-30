@@ -7,12 +7,14 @@
 
     <div class="container-navs">
         <div class="container-pages">
-            <a routerLink="/workspaces" tuiButton size="m" appearance="outline" >Workspaces</a>
-            <a routerLink="/notes" tuiButton size="m" appearance="outline" >Notes</a>
-            <a routerLink="/todos" tuiButton size="m" appearance="outline" >Todos</a>
+            <a routerLink="/workspaces" routerLinkActive="active"  tuiButton size="m" appearance="outline" >Workspaces</a>
+            <a routerLink="/notes" routerLinkActive="active" tuiButton size="m" appearance="outline" >Notes</a>
+            <a routerLink="/todos" routerLinkActive="active" tuiButton size="m" appearance="outline" >Todos</a>
         </div>
         <div class="container-account">
-            <a href="javascript:void(0)" tuiButton size="m" appearance="whiteblock" routerLink="/auth/login" class="btn-login" >Login</a>
+            <h1 *ngIf="user && user.name.length">{{user.name}}</h1>
+            <a href="javascript:void(0)" tuiButton size="m" *ngIf="!user || !user.name.length" appearance="whiteblock" routerLink="/auth/login" class="btn-login" >Login</a>
+            <button tuiButton appearance="accent" (click)="userLogout()" size="m" *ngIf="user && user.name.length" >Logout</button>
         </div>
     </div>
 </div>

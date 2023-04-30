@@ -3,7 +3,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   width: 100%;
 
@@ -28,8 +27,8 @@
   // Note List
   .container-note-list {
     padding: 15px;
-    display: grid;
-    grid-template-columns: repeat(4,calc((100% - 30px) / 4));
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     height: 100%;
     width: 100%;
@@ -37,7 +36,9 @@
     .container-note {
       display: flex;
       flex-direction: column;
-      width: 80%;
+      flex: 1 1 299px;
+      width: 299px;
+      cursor: pointer;
       padding: 15px;
       &::before {
         border-top: 5px solid;
@@ -50,5 +51,29 @@
         max-height: 200px;
       }
     }
+  }
+}
+
+// DIALOG
+
+.editForm, .viewNote{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  tui-scrollbar{
+    max-height: 100px;
+  }
+  span{
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 100vmax;
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+  }
+  .actions{
+    display: flex;
+    gap: 20px;
+    align-items: center;
   }
 }

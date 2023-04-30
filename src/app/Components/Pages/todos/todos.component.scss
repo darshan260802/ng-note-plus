@@ -1,0 +1,110 @@
+.container-todos {
+  padding: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  // Action Bar
+  .container-actionbar {
+    form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inp-todo {
+      width: min(80%, 450px);
+    }
+    .inp-date {
+      width: min(80%, 200px);
+    }
+
+    tui-select {
+      width: 250px;
+      overflow-x: hidden;
+      text-transform: capitalize;
+    }
+  }
+
+  // Todo List
+  .container-todo-list {
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+
+    .container-todo {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 299px;
+      width: 299px;
+      cursor: pointer;
+      padding: 15px;
+      .ws-name{
+        background-color: var(--bg-color);
+        display: inline-block;
+        width: fit-content;
+        padding: 2px 5px;
+        border-radius: 5px;
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // // Note List
+  // .container-note-list {
+  //   padding: 15px;
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   gap: 10px;
+  //   height: 100%;
+  //   width: 100%;
+
+  //   .container-note {
+  //     display: flex;
+  //     flex-direction: column;
+  //     flex: 1 1 299px;
+  //     width: 299px;
+  //     cursor: pointer;
+  //     padding: 15px;
+  //     &::before {
+  //       border-top: 5px solid;
+  //       border-top-color: var(--border-color);
+  //     }
+  //     tui-scrollbar{
+  //       text-overflow: ellipsis;
+  //       overflow: hidden auto;
+  //       max-width: 100%;
+  //       max-height: 200px;
+  //     }
+  //   }
+  // }
+}
+
+// DIALOG
+
+.editForm,
+.viewNote {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  tui-scrollbar {
+    max-height: 100px;
+  }
+  span[usePriority]{
+    display: inline-block;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+  .actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+}

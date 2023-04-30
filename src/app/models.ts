@@ -22,3 +22,12 @@ export interface Note{
     createdAt:number;
     noteId?:string;
 }
+export interface Todo{
+    userId:string;
+    workspaceId:string;
+    createdAt:number;
+    task:string;
+    deadline:string;
+    priority: 'low' | 'medium' | 'high';
+    todoId?:string;
+}

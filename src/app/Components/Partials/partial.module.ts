@@ -4,6 +4,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TuiButtonModule } from '@taiga-ui/core';
+import { AuthService } from 'src/app/Shared/auth.service';
 
 
 
@@ -16,6 +17,7 @@ import { TuiButtonModule } from '@taiga-ui/core';
     TuiButtonModule
     
   ],
-  exports:[SidebarComponent]
+  exports:[SidebarComponent],
+  providers:[AuthService]
 })
 export class PartialModule { }
