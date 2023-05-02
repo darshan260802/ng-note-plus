@@ -22,6 +22,7 @@ import { Observable } from "rxjs";
 export class NoteService {
   constructor(private authService: AuthService, private firestore: Firestore) {}
 
+  
   async createNote(title: string, noteStr:string, tag:string, workspaceId: string): Promise<void> {
     const note: Note = {
       workspaceId,
